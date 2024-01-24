@@ -1,0 +1,25 @@
+/* SidePanel.css */
+.side-panel {
+    width: 250px;
+    height: 100%;
+    background-color: #f0f0f0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .side-panel h2 {
+    margin-bottom: 15px;
+  }
+  
+  .side-panel ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .side-panel li {
+    margin-bottom: 8px;
+  }
+  
