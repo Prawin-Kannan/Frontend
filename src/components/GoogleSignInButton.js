@@ -1,57 +1,46 @@
+// GoogleSignInButton.js
 import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom'
 
 const GoogleSignInButton = () => {
-    const { signIn } = useAuth();
-    const history = useNavigate();
+    const navigate = useNavigate();
 
-    const handleSignIn = async () => {
-        try {
-            // Load Google API
-            await loadGoogleApi();
+    const saveUserDataToBackend = async (credentialResponseDecoded) => {
+        const { name, email } = credentialResponseDecoded;
 
-            // Initialize Google Sign-In
-            const auth2 = await window.gapi.auth2.init({
-                client_id: 'YOUR_GOOGLE_CLIENT_ID',
-            });
+        const response = await fetch('http://localhost:5000/auth/googleSignIn', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email }),
+        });
 
-            // Sign in with Google
-            const googleUser = await auth2.signIn();
-
-            // Get user data
-            const userData = {
-                id: googleUser.getId(),
-                name: googleUser.getBasicProfile().getName(),
-                email: googleUser.getBasicProfile().getEmail(),
-                // Add more user data as needed
-            };
-
-            // Call signIn with user data upon successful authentication
-            signIn(userData);
-
-            // Redirect to dashboard or another route
-            history.push('/dashboard');
-        } catch (error) {
-            console.error('Error during Google sign-in:', error);
+        if (!response.ok) {
+            console.error('Error saving user data to backend:', response.statusText);
         }
     };
 
-    const loadGoogleApi = () => {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://apis.google.com/js/platform.js';
-            script.async = true;
-            script.onload = () => resolve();
-            script.onerror = () => reject();
-            document.head.appendChild(script);
-        });
-    };
-
     return (
-        <button onClick={handleSignIn}>
-            Sign in with Google
-        </button>
+        <GoogleOAuthProvider clientId="842440962759-otno2cdledbvavqj91ptpmlvgdm8jl9i.apps.googleusercontent.com">
+            <GoogleLogin
+                onSuccess={credentialResponse => {
+                    console.log(credentialResponse);
+                    const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+                    console.log('credentialResponseDecoded', credentialResponseDecoded);
+
+                    // Pass the decoded token to saveUserDataToBackend function
+                    saveUserDataToBackend(credentialResponseDecoded);
+                    navigate('/overlay-side-panel', { state: { userData: credentialResponseDecoded } });
+
+                }}
+                onError={() => {
+                    console.log('Login Failed');
+                }}
+            />
+        </GoogleOAuthProvider>
     );
 };
 

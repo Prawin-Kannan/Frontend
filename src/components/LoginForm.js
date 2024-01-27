@@ -57,7 +57,7 @@ const LoginForm = () => {
 
             // Call signIn with user data upon successful authentication
             signUp(formData);
-            navigate('/overlay-side-panel');
+            navigate('/overlay-side-panel', { state: { userData: formData } });
         }
     };
 

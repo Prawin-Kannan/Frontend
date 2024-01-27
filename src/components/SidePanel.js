@@ -1,18 +1,21 @@
-// SidePanel.js
+import '../styles/SidePanel.css';
 import React from 'react';
-import '../styles/SidePanel.css'; // Import the CSS for styling
 
 const SidePanel = ({ influencers }) => {
     return (
-        <div className="side-panel">
-            <h2>Selected Influencers</h2>
+        <div>
+            <h3>Selected Influencers</h3>
             <ul>
-                {influencers.map((influencer) => (
-                    <li key={influencer.id}>{influencer.name}</li>
+                {influencers.map((influencer, index) => (
+                    <li key={index}>
+                        {typeof influencer === 'object' ? influencer.name : influencer}
+                    </li>
                 ))}
             </ul>
         </div>
     );
 };
+
+
 
 export default SidePanel;

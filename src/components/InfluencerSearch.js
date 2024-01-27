@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import InfluencerList from './InfluencerList';
-import useDragAndDrop from '../hooks/useDragAndDrop';
 import { getInfluencers } from '../services/influencerService';
 
-function InfluencerSearch() {
+const InfluencerSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [influencers, setInfluencers] = useState([]);
-
+    const [searchResults, setSearchResults] = useState([]);
     const handleSearch = async () => {
         try {
+            console.log("searchTerm", searchTerm)
             const results = await getInfluencers(searchTerm);
-            setInfluencers(results);
+            setSearchResults(results);
         } catch (error) {
             console.error('Error searching influencers:', error);
         }
     };
 
-    const { onDragStart, onDragOver, onDrop } = useDragAndDrop();
+
+
+    const handleDragStart = (e, influencer) => {
+        e.dataTransfer.setData('text/plain', influencer.id);
+    };
 
     return (
         <div>
@@ -26,14 +28,21 @@ function InfluencerSearch() {
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button onClick={handleSearch}>Search</button>
-            <InfluencerList
-                influencers={influencers}
-                onDragStart={onDragStart}
-                onDragOver={onDragOver}
-                onDrop={onDrop}
-            />
+            {searchResults.length > 0 && (
+                <div>
+                    <h3>Search Results</h3>
+                    <ul>
+                        {searchResults.map((influencer, index) => (
+                            <li key={index} draggable onDragStart={(e) => handleDragStart(e, influencer)}>
+                                {influencer.name}
+                            </li>
+                        ))}
+
+                    </ul>
+                </div>
+            )}
         </div>
     );
-}
+};
 
 export default InfluencerSearch;

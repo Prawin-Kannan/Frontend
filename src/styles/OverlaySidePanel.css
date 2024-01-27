@@ -1,0 +1,72 @@
+/* Container styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Main panel styles */
+.main-panel {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+/* Header styles */
+.main-panel h3 {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Button styles */
+.main-panel button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.main-panel button:hover {
+    background-color: #0056b3;
+}
+
+/* Side panel container styles */
+.side-panel {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+.draggable {
+    cursor: pointer;
+}
+
+/* Style for when dragging is active */
+.draggable.dragging {
+    opacity: 0.5; /* Reduce opacity of the dragged element */
+}
+
+
+.drop-target {
+    border: 2px dashed #007bff; 
+    padding: 10px;
+    margin-top: 10px;
+}
+
+
+.drop-target.drag-over {
+    background-color: #f0f0f0; 
+}

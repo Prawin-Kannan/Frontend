@@ -1,10 +1,14 @@
+// InfluencerList.js
 import React from 'react';
 import InfluencerCard from './InfluencerCard';
+import useDragAndDrop from '../hooks/useDragAndDrop'; 
 
-function InfluencerList({ influencers, onDragStart, onDragOver, onDrop }) {
+const InfluencerList = ({ influencers }) => {
+    const { onDragStart, onDragOver, onDrop } = useDragAndDrop();
+
     return (
         <div>
-            {influencers.map((influencer) => (
+            {influencers.map(influencer => (
                 <InfluencerCard
                     key={influencer.id}
                     influencer={influencer}
@@ -15,6 +19,6 @@ function InfluencerList({ influencers, onDragStart, onDragOver, onDrop }) {
             ))}
         </div>
     );
-}
+};
 
 export default InfluencerList;

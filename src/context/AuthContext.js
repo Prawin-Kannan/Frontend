@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
             // Adjust the API endpoint and base URL according to your backend setup
             const response = await axios.post('http://localhost:5000/auth/signup', userData);
 
-            // Optionally, you can handle additional logic here (e.g., update user state)
             const newUser = response.data;
             console.log('New user data:', newUser);
             // Update user state
@@ -19,13 +18,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // const signIn = (userData) => {
-    //     setUser(userData);
-    // };
-
-    // const signOut = () => {
-    //     setUser(null);
-    // };
 
     return (
         <AuthContext.Provider value={{ user, signUp }}>
